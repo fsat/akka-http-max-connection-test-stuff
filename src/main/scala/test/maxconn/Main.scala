@@ -107,6 +107,10 @@ object Main {
 
     Http(actorSystem)
       .bindAndHandle(routeToMount, host, port, settings = customSettings)
+      .foreach { _ =>
+        actorSystem.log.info(s"Listening on $host:$port with maxConnection of $maxConnection")
+        actorSystem.log.info(s"To test max-connection, open multiple SSE using: `curl $host:$port/events`")
+      }
   }
 
   def main(args: Array[String]): Unit =
